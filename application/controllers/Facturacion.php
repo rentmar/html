@@ -53,7 +53,7 @@ class Facturacion extends CI_Controller
 
         //Detalle de venta
         $detalle_venta = $this->Venta_model->leerDetalleVenta($idventa);
-
+	
         //La factura que corresponde al registro de venta
         $id_factura = $this->Factura_model->leerFacturaPorRegistro($idventa);
         $factura = $this->Factura_model->leerFacturaPorID($id_factura);
@@ -132,8 +132,6 @@ class Facturacion extends CI_Controller
         //Detalle de venta
         $detalle_venta = $this->Venta_model->leerDetalleVenta($idventa);
 
-
-
         //La factura que corresponde al registro de venta
         $id_factura = $this->Factura_model->leerFacturaPorRegistro($idventa);
         $factura = $this->Factura_model->leerFacturaPorID($id_factura);
@@ -144,14 +142,14 @@ class Facturacion extends CI_Controller
         $datos['factura'] = $factura;
         $datos['detalle_venta'] = $detalle_venta;
 
-        /**** ENCABEZADO ****/
-        $this->load->view("html/encabezado.php");
+       
+		$this->load->view("html/encabezado.php");
         $this->load->view("html/navbar.php");
         $this->load->view("html/aside.php");
 
         $this->load->view('facturacion/vfacturacion_factura.php', $datos);
 
-        /**** PIE ****/
+     
         $this->load->view('html/pie.php');
     }
 

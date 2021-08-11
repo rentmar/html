@@ -170,9 +170,9 @@
                                             <!-- Precio unitario -->
                                             <td class="text-right">
                                                 <?php
-                                                $incremento_item = ($v->precio)*($v->incremento/100);
-                                                $descuento_item = ($v->precio)*($v->descuento_producto/100);
-                                                $precio_unitario = ($v->precio + $incremento_item) - $descuento_item;
+                                                $incremento_item = ($v->total_producto/$v->cantidad_producto)*($v->incremento/100);
+                                                $descuento_item = ($v->total_producto/$v->cantidad_producto)*($v->descuento_producto/100);
+                                                $precio_unitario = ($v->total_producto/$v->cantidad_producto) - $descuento_item;
 
                                                 echo number_format($precio_unitario, 2, ',', '');
                                                 ?>

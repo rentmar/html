@@ -14,18 +14,19 @@ ob_end_clean();
 $bordecab=1; // brode cabecera detalle
 $borde = 0; //1 con borde 0 sin borde
 $tamtxtnormal=10;
-$tamtxtdetalle=9;
+$tamtxtdetalle=10;
 $tamtxtpie=9;
 $altura=3;
 //----------- tamaño pagina
 $anchopag=79;
 $altopag=235+($contador*$altura);
 //----------- margenes
-$margen=3;
+$margen=1;
 $margenarriba=5;
 //---------------------- campos detalle
-$campo_descrip=floor($anchopag*0.50);
+$campo_descrip=floor($anchopag*0.60);
 $campos_det=floor($anchopag*0.15);
+$campo_cant=floor($anchopag*0.10);
 
 //$altocel=3;
 /*$sizetexto=6;
@@ -69,18 +70,19 @@ $pdf->Write($altura, '---------------------------------------------------','',0,
 
 //-----------------------------------------detalle
 $pdf->Cell($campo_descrip, 0, 'DESCRIPCION', $bordecab, 0, 'L', 0, '', 1);
-$pdf->Cell($campos_det, 0, 'CANT', $bordecab, 0, 'L', 0, '', 1);
+$pdf->Cell($campo_cant, 0, 'CANT', $bordecab, 0, 'L', 0, '', 1);
 $pdf->Cell($campos_det, 0, 'PRECIO/U', $bordecab, 0, 'L', 0, '', 1);
 $pdf->Cell($campos_det, 0, 'IMPORTE', $bordecab, 1, 'R', 0, '', 1);
 $pdf->Ln($altura);
 $pdf->SetFont('times', '', $tamtxtdetalle);
 foreach ($detalle_venta as $v) {
-    $incremento_item = ($v->precio)*($v->incremento/100);
-    $descuento_item = ($v->precio)*($v->descuento_producto/100);
-    $precio_unitario = ($v->precio + $incremento_item) - $descuento_item;
+    $incremento_item = ($v->total_producto/$v->cantidad_producto)*($v->incremento/100);
+    $descuento_item = ($v->total_producto/$v->cantidad_producto)*($v->descuento_producto/100);
+    $precio_unitario = ($v->total_producto/$v->cantidad_producto) - $descuento_item;
 
     $pdf->Cell($campo_descrip, 0,$v->fabricante.' '.$v->nombre.' '.$v->item.' '.$v->dimension, $borde, 0, 'L', 0, '', 1);
-    $pdf->Cell($campos_det, 0, $v->cantidad_producto, $borde, 0, 'L', 0, '', 1);
+    //$pdf->MultiCell($anchopag-10, 0, $v->fabricante.' '.$v->nombre.' '.$v->item.' '.$v->dimension, 0, 'L', false, 1, '', '', false,0);
+	$pdf->Cell($campo_cant, 0, $v->cantidad_producto, $borde, 0, 'L', 0, '', 1);
     $pdf->Cell($campos_det, 0, number_format($precio_unitario, 2, ',', ''), $borde, 0, 'L', 0, '', 1);
     $pdf->Cell($campos_det, 0, number_format($v->total_producto, 2, ',', ''), $borde, 1, 'R', 0, '', 1);
 }
