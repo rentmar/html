@@ -1,0 +1,170 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 12-06-2019, 10:14:05 AM
+    Author     : marcelo
+*/
+
+/*
+html{
+    margin-top: 3.6rem;
+}
+
+.productos{
+    background-color: #005cbf;
+    border-left: #005cbf solid;
+}
+
+.ventas{
+    background-color: #28a745;
+}
+
+.detalle{
+    background-color: #abdde5;
+}
+
+.calculadora{
+    background-color: #e0a800;
+}
+
+#cuenta{
+    margin-top: 5rem;
+}
+
+#detalle{
+    font-size: 9pt;
+}
+
+.fixed_header{
+    width: auto;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+.fixed_header tbody{
+  display:block;
+  width: 100%;
+  overflow: auto;
+  height: 200px;
+}
+
+.fixed_header thead tr {
+   display: block;
+}
+
+.fixed_header thead {
+  background: black;
+  color:#fff;
+}
+
+.fixed_header th, .fixed_header td {
+  padding: 5px;
+  text-align: left;
+  width: 200px;
+}
+
+.controles-venta{
+    background-color: #444;
+}
+
+
+.factura {
+    position: relative;
+    background-color: #FFF;
+    min-height: 680px;
+    padding: 15px
+}
+*/
+
+/**************** MENU ASIDE **************************************/
+/*
+.sidenav{
+    height: 100%;
+    margin-top: 3rem;
+    width: 0;
+    position: fixed;
+    z-index: 2000;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+*/
+/*.sidenav a{ */
+    /*padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;*/
+/*}*/
+
+/*
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+.contenedorsubcategoria{
+    display: none;
+}
+
+
+.categorias .card-group .card{
+    min-width: 8rem;
+    max-width: 8rem;
+}
+
+.categorias .card-group .card p{
+    font-size: 8pt;
+}*/
+/******************************************************************/
+
+html{
+	margin-top: 3.6rem;
+}
+
+/* Estilos para el detalle de ventas */
+
+.table-wrapper{
+	overflow-y: scroll;
+	height: 18rem;
+}
+
+.table-wrapper th{
+	position: sticky;
+	top: 0;
+}
+
+table{
+	border-collapse: collapse;
+	width: 100%;
+}
+
+th{
+
+}
+
+
+td{
+}
+
+.product-wrapper{
+	overflow-y: scroll;
+	position: sticky;
+	height: 37rem;
+}
+
+
