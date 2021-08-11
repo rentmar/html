@@ -19,6 +19,7 @@ class Reportes extends CI_Controller{
         }
     }
 
+    //Funcion por defecto
     public function index(){
 
         /**** ENCABEZADO ****/
