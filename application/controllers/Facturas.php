@@ -166,27 +166,47 @@ class Facturas extends CI_Controller
         $facturas_emitidas = $this->Factura_model->leerFacturasMesActual($empresa->idempresa, $datos_facturacion);
         $datos['facturas_emitidas'] = $facturas_emitidas;
 
-        /*var_dump($empresa);
-        echo "<br><br><br>";
-        var_dump($datos_facturacion);
-        echo "<br><br><br>";
-        var_dump($facturas_emitidas);*/
-
-
-
         $this->load->view("html/encabezado.php");
         $this->load->view("html/navbar.php");
         $this->load->view("html/aside.php");
 
         $this->load->view('facturas/vfacturas_emitidas.php', $datos);
 
-        /**** PIE ****/
+      
         $this->load->view('html/pie.php');
 
 
     }
+	public function listaFacturasBlanco()
+	{
+		echo "lista blanco";
+	}
+	public function facturasRevisar()
+	{
+		 $this->load->view("html/encabezado.php");
+        $this->load->view("html/navbar.php");
+        $this->load->view("html/aside.php");
 
+        $this->load->view('facturas/vfacturas_revisar.php');
 
+        $this->load->view('html/pie.php');
+	}
+	public function listaFacturasCliente()
+	{
+		$nit=$this->input->post("nit");
+		$empresa = $this->Empresa_model->leerEmpresaPorIdentificador($this->session->sucursal->idempresa);
+        $datos_facturacion = $this->Venta_model->leerDatosFacturacion($empresa->idempresa);
+        $facturas_emitidas = $this->Factura_model->leerFacturasMesCliente($empresa->idempresa, $datos_facturacion,$nit);
+        $datos['facturas_emitidas'] = $facturas_emitidas;
+        $this->load->view("html/encabezado.php");
+        $this->load->view("html/navbar.php");
+        $this->load->view("html/aside.php");
+
+        $this->load->view('facturas/vfacturas_emitidascliente.php', $datos);
+
+      
+        $this->load->view('html/pie.php');
+	}
     //TEst de facturas
     public function testFacturas()
     {

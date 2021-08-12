@@ -42,9 +42,7 @@ class Facturacion extends CI_Controller
 	public function imprimirFactura($idventa_reg)
 	{
 	    $idventa = $idventa_reg;
-
-
-
+		$cnt=0;
 		$alm=$this->Empresa_model->leerAlmacenIdentificadorEmpresa($this->session->sucursal->idempresa);
         $emp=$this->Empresa_model->leerEmpresaPorIdentificador($alm->rel_empresa);
 
@@ -53,7 +51,15 @@ class Facturacion extends CI_Controller
 
         //Detalle de venta
         $detalle_venta = $this->Venta_model->leerDetalleVenta($idventa);
-	
+		foreach($detalle_venta as $v)
+		{
+			$cnt=$cnt+1;
+			$producto=$v->fabricante.' '.$v->nombre.' '.$v->item.' '.$v->dimension;
+			if (strlen($producto)>=41)
+			{
+				$cnt=$cnt+1;
+			}
+		}
         //La factura que corresponde al registro de venta
         $id_factura = $this->Factura_model->leerFacturaPorRegistro($idventa);
         $factura = $this->Factura_model->leerFacturaPorID($id_factura);
@@ -66,7 +72,8 @@ class Facturacion extends CI_Controller
 		$dts['empresa']=$emp;
 		$dts['registro_venta'] = $registro_venta;
 		$dts['detalle_venta'] = $detalle_venta;
-		$dts['contador']=count($detalle_venta);
+		$dts['numprod']=count($detalle_venta);
+		$dts['contador']=$cnt;
 		$dts['factura'] = $factura;
 		$dts['datos_facturacion'] = $datos_facturacion;
 		
@@ -81,7 +88,7 @@ class Facturacion extends CI_Controller
 	}
 	public function imprimirFacturaGrande($idventa_reg)
 	{
-	    $idventa = $idventa_reg;
+	    /*$idventa = $idventa_reg;
 
 
 
@@ -116,7 +123,7 @@ class Facturacion extends CI_Controller
 		$numero=floor($total);
 		$dts['literal']=strtoupper($this->numeroliteral->literal($numero));
 		$dts['centavos']=round(($total-$numero)*100);
-		$this->load->view('facturacion/vfacturacion_imprimirgrande.php',$dts);
+		$this->load->view('facturacion/vfacturacion_imprimirgrande.php',$dts);*/
 		
 	}
 	public function facturacionContado($idventa_reg)
@@ -152,7 +159,39 @@ class Facturacion extends CI_Controller
      
         $this->load->view('html/pie.php');
     }
+	public function facturacionContadoVer($idventa_reg)
+    {
+        $idventa = $idventa_reg;
 
+        //Datos de la empresa
+        $empresa = $this->session->sucursal;
+
+        //Informacion del registro de venta
+        $registro_venta = $this->Venta_model->leerRegistroVenta($idventa);
+
+        //Detalle de venta
+        $detalle_venta = $this->Venta_model->leerDetalleVenta($idventa);
+
+        //La factura que corresponde al registro de venta
+        $id_factura = $this->Factura_model->leerFacturaPorRegistro($idventa);
+        $factura = $this->Factura_model->leerFacturaPorID($id_factura);
+
+        $datos['idventa'] = $idventa;
+        $datos['empresa'] = $empresa;
+        $datos['registro_venta'] = $registro_venta;
+        $datos['factura'] = $factura;
+        $datos['detalle_venta'] = $detalle_venta;
+
+       
+		$this->load->view("html/encabezado.php");
+        $this->load->view("html/navbar.php");
+        $this->load->view("html/aside.php");
+
+        $this->load->view('facturas/vfacturacion_factura.php', $datos);
+
+     
+        $this->load->view('html/pie.php');
+    }
     private function mensaje($mensaje, $clase) {
         $this->session->set_flashdata([
             'mensaje' => $mensaje,

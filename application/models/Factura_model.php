@@ -69,7 +69,7 @@ class Factura_model extends CI_Model{
     //Extraer las facturas emitidas en un periodo
     public function leerFacturasMesActual($idSucursal, $datos_facturacion)
     {
-        $sql =    "SELECT *  "
+        $sql ="SELECT *  "
             . "FROM ent_compra_venta "
             . "LEFT JOIN ent_facturas ON ent_facturas.rel_idcomven = ent_compra_venta.idcomven "
             . "LEFT JOIN ent_cliente_proveedor ON ent_compra_venta.rel_idcliente = ent_cliente_proveedor.idclipro  "
@@ -77,6 +77,21 @@ class Factura_model extends CI_Model{
             . "AND ent_compra_venta.rel_idempresa = ?  "
             . "AND ent_facturas.numero_autorizacion = ?  "
             . "AND ent_facturas.fecha_limite_emision = ? "
+            . "ORDER BY ent_facturas.numero_factura ASC ";
+        $qry = $this->db->query($sql, [true, $idSucursal, $datos_facturacion->numero_autorizacion, $datos_facturacion->fecha_limite_emision ]);
+        return $qry->result();
+    }
+	public function leerFacturasMesCliente($idSucursal, $datos_facturacion,$nit)
+    {
+        $sql ="SELECT *  "
+            . "FROM ent_compra_venta "
+            . "LEFT JOIN ent_facturas ON ent_facturas.rel_idcomven = ent_compra_venta.idcomven "
+            . "LEFT JOIN ent_cliente_proveedor ON ent_compra_venta.rel_idcliente = ent_cliente_proveedor.idclipro  "
+            . "WHERE ent_compra_venta.es_facturado = ? "
+            . "AND ent_compra_venta.rel_idempresa = ?  "
+            . "AND ent_facturas.numero_autorizacion = ?  "
+            . "AND ent_facturas.fecha_limite_emision = ? "
+			. "AND ent_cliente_proveedor.nit = ".$nit." "
             . "ORDER BY ent_facturas.numero_factura ASC ";
         $qry = $this->db->query($sql, [true, $idSucursal, $datos_facturacion->numero_autorizacion, $datos_facturacion->fecha_limite_emision ]);
         return $qry->result();

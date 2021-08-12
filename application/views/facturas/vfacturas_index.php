@@ -23,11 +23,11 @@
         <div class="row">
             <div class="col-12 d-flex" >
                 <div class="ml-auto">
+					<a href="<?php echo site_url('facturas/facturasRevisar'); ?>" class="btn btn-secondary " role="button">
+                        Revisar Facturas 
+                    </a>
                     <a href="<?php echo site_url('Facturas/actualizarDosificacion'); ?>" class="btn btn-secondary " role="button">
                         Dosificacion
-                    </a>
-                    <a href="<?php echo site_url('facturas/facturasEmitidas'); ?>" class="btn btn-secondary " role="button">
-                        Facturas Emitidas
                     </a>
                     <a href="<?php echo site_url('facturas/testFacturas'); ?>" class="btn btn-secondary " role="button">
                         Test Facturas
