@@ -116,5 +116,21 @@ class Factura_model extends CI_Model{
         return $qry->row();
     }
 
+    public function leerFacturas()
+    {
+        $sql ="SELECT *  "
+            . "FROM ent_facturas "
+            . "ORDER BY ent_facturas.numero_factura ASC "
+            . "  "
+            . " "
+            . "  "
+            . "  "
+            . " "
+            . " "
+            . " ";
+        $qry = $this->db->query($sql);
+        return $qry->result();
+    }
+
 
 }

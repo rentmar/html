@@ -1,16 +1,22 @@
 <?php
 
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 class Reportes extends CI_Controller{
     public function __construct()
     {
         parent::__construct();
         $this->load->library('ion_auth');
         $this->load->library('session');
-        $this->load->library('excel');
+        //$this->load->library('excel');
         $this->load->helper("html");
         $this->load->helper('url');
         $this->load->helper('form');
+        $this->load->helper('date');
         $this->load->model('Cliente_model');
+        $this->load->model('Factura_model');
 
         //Comprobar inicio de session
         if($this->session->sesion_activa ===  null){
@@ -38,43 +44,54 @@ class Reportes extends CI_Controller{
     //Ejemplo de uso de la libreria PHPExcel
     public function generarReporte()
     {
-        //Asumiendo que ya hayamos solicitado la libreria iniciamos la primera hoja
-        $this->excel->setActiveSheetIndex(0);
+        $facturas = $this->Factura_model->leerFacturas();
+        $filename = "facturas.xlsx";
+        $ruta = 'assets/';
+        $plantilla = $ruta.'reporte-plantilla.xlsx';
 
-        //Le colocamos el nombre a la primera hoja o pestaña
-        $this->excel->getActiveSheet()->setTitle('Hola de Prueba');
+        header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheet‌​ml.sheet");
+        header('Content-Disposition: attachment; filename="' . $filename. '"');
+        header('Cache-Control: max-age=0');
+        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($plantilla);
+        $sheet = $spreadsheet->getSheet(0)->setTitle('Facturas');
 
-        //Ingresamo el X's texto en la celda A1
-        $this->excel->getActiveSheet()->setCellValue('A1', 'Este es mi gran texto...');
+        $worksheet = $spreadsheet->getActiveSheet();
+        $eje_y = 6;
 
-        //Cambiamos el tamaño de letra para la Celda A1
-        $this->excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(20);
+        foreach ($facturas as $f):
+            $sheet->setCellValue('A'.$eje_y, $f->idfactura);
+            $sheet->setCellValue('B'.$eje_y, mdate('%m-%d-%Y', $f->fecha_facturacion));
+            $sheet->setCellValue('C'.$eje_y, $f->numero_factura);
+            $sheet->setCellValue('D'.$eje_y, $f->numero_autorizacion);
+            $sheet->setCellValue('E'.$eje_y, $f->estado);
+            $sheet->setCellValue('F'.$eje_y, $f->cod_control);
+            $sheet->setCellValue('G'.$eje_y, mdate('%m-%d-%Y', $f->fecha_limite_emision) );
+            $sheet->setCellValue('H'.$eje_y, $f->llave_dosificacion );
+            $sheet->setCellValue('I'.$eje_y, $f->codigo_qr );
+            $eje_y++;
+        endforeach;
 
-        //Le colocamos negrilla a la Celda A1
-        $this->excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
 
-        //Unimos las Celdas desde la A1 hasta la D1
-        $this->excel->getActiveSheet()->mergeCells('A1:D1');
+        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $writer->save("php://output");
 
-        //Alineamos en el centro las celdas
-        $this->excel->getActiveSheet()->getStyle('A1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 
-        //Aca le asignamos el nombre al archivo
-        $filename='Listado_de_clientes.xls';
+       /* $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setCellValue('A1', 'Hello World !');
 
-        //Seteamos el mime
+        $writer = new Xlsx($spreadsheet);
+
+        $filename = 'name-of-the-generated-file';
+
         header('Content-Type: application/vnd.ms-excel');
-
-        //Le enviamos al navegador el nombre del archivo para su respectiva descarga
-        header('Content-Disposition: attachment;filename="'.$filename.'"');
-
-        //Le indicamos que no deje en cache nada
+        header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"');
         header('Cache-Control: max-age=0');
 
-        //Se genera la mágia, y se construye TODO
-        $objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');
+        $writer->save('php://output'); // download file*/
 
-        //forzamos la entrega del archivo a nuestro navegador (Descarga pes...)
-        $objWriter->save('php://output');
+
+
+
     }
 }
